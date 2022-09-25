@@ -13,14 +13,18 @@ import (
 	"sync"
 )
 
+//获取样例
 func findSample(body []byte) (input [][]byte, output [][]byte, err error) {
 	doc, err := goquery.NewDocumentFromReader(strings.NewReader(string(body)))
 	doc.Find(".sample-test .input").Each(func(_ int, s *goquery.Selection) {
 		// For each item found, get the title
 		inputCase := ""
 		s.Find("pre").Contents().Each(func(_ int, s1 *goquery.Selection) {
-			//fmt.Println(s1.Text())
-			inputCase += s1.Text() + "\n"
+			text := s1.Text()
+			if len(text) == 0 {
+				return
+			}
+			inputCase += text + "\n"
 		})
 		for strings.HasSuffix(inputCase, "\n\n") {
 			inputCase = inputCase[:len(inputCase)-1]
@@ -31,8 +35,11 @@ func findSample(body []byte) (input [][]byte, output [][]byte, err error) {
 		// For each item found, get the title
 		outputCase := ""
 		s.Find("pre").Contents().Each(func(_ int, s1 *goquery.Selection) {
-			//fmt.Println(s1.Text())
-			outputCase += s1.Text() + "\n"
+			text := s1.Text()
+			if len(text) == 0 {
+				return
+			}
+			outputCase += text + "\n"
 		})
 		for strings.HasSuffix(outputCase, "\n\n") {
 			outputCase = outputCase[:len(outputCase)-1]
@@ -124,7 +131,7 @@ func (c *Client) Parse(info Info) (problems []string, paths []string, err error)
 	mu := sync.Mutex{}
 	paths = make([]string, len(problems))
 	for i, problemID := range problems {
-		paths[i] = filepath.Join(contestPath, strings.ToLower(problemID))
+		paths[i] = filepath.Join(contestPath, problemID)
 		go func(problemID, path string) {
 			defer wg.Done()
 			mu.Lock()

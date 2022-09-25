@@ -22,7 +22,8 @@ const configPath = "~/.cf/config"
 const sessionPath = "~/.cf/session"
 
 func main() {
-	usage := `Codeforces Tool $%version%$ (cf). https://github.com/dianhsu/cf-tool
+	usage := `dpz fork it !
+Codeforces Tool $%version%$ (cf). https://github.com/dianhsu/cf-tool
 You should run "cf config" to configure your handle, password and code
 templates at first.
 If you want to compete, the best command is "cf race"
@@ -140,7 +141,7 @@ Script in template:
 	usage = strings.Replace(usage, `$%version%$`, version, 1)
 	opts, _ := docopt.ParseArgs(usage, os.Args[1:], fmt.Sprintf("Codeforces Tool (cf) %v\nLast built: %v\n", version, buildTime))
 	opts[`{version}`] = version
-
+	//加载配置文件
 	cfgPath, _ := homedir.Expand(configPath)
 	clnPath, _ := homedir.Expand(sessionPath)
 	config.Init(cfgPath)

@@ -36,8 +36,12 @@ func readTemplateSource(path string, cln *client.Client) (source string, err err
 }
 
 func gen(source, currentPath, ext string) error {
-	path := filepath.Join(currentPath, filepath.Base(currentPath))
+	split := strings.Split(currentPath, "/")
+	raceId := split[len(split)-2]
+	problemId := split[len(split)-1]
+	path := filepath.Join(currentPath, "CF"+raceId+problemId)
 
+	source = strings.ReplaceAll(source, "$%file%$", "CF"+raceId+problemId)
 	savePath := path + ext
 	i := 1
 	for _, err := os.Stat(savePath); err == nil; _, err = os.Stat(savePath) {

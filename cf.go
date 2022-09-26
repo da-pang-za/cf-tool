@@ -22,8 +22,7 @@ const configPath = "~/.cf/config"
 const sessionPath = "~/.cf/session"
 
 func main() {
-	usage := `dpz fork it !
-Codeforces Tool $%version%$ (cf). https://github.com/dianhsu/cf-tool
+	usage := `Codeforces Tool forked by dpz. https://github.com/da-pang-za/cf-tool
 You should run "cf config" to configure your handle, password and code
 templates at first.
 If you want to compete, the best command is "cf race"
